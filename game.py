@@ -26,8 +26,12 @@ def get_input():
         return print(f'you have ${player["money"]}')
 
     if(result == "u"):
-        upgrade()
-        return 2
+        if(player['money'] >= weapons[player["weapon"]+1]['price']):
+            return upgrade()
+        else:
+            print(f"You need ${weapons[player["weapon"]+1]['price']-player['money']} to upgrade")
+            return get_input()
+        # return 2
 
     if(result == "q"):
         quit_game()
@@ -44,7 +48,8 @@ def attack():
 def upgrade():
     print("you updated")
     player["weapon"] += 1
-    print(weapons[player["weapon"]])
+    player['money'] = player['money'] - weapons[player["weapon"]]['price']
+    print(f'You now have {weapons[player["weapon"]]['name']} and ${player["money"]}')
     win()
 
 def quit_game():
@@ -53,6 +58,7 @@ def quit_game():
 def win():
     if(player["money"] == 1000 and player["weapon"] == 4):
         print("you win!")
-    get_input()
+    else:
+        get_input()
 
 get_input()
